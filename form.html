@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Income Prediction</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .form-container {
+        background: white;
+        padding: 30px 40px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 100%;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    form label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        color: #444;
+        font-weight: bold;
+    }
+
+    input[type="number"],
+    select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+    .radio-group {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    input[type="range"] {
+        width: 100%;
+    }
+
+    output {
+        display: inline-block;
+        margin-top: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .result {
+        margin-top: 25px;
+        padding: 15px;
+        background-color: #e8f5e9;
+        border-left: 5px solid #4CAF50;
+        border-radius: 5px;
+    }
+
+    .result h3 {
+        margin: 0;
+        color: #2e7d32;
+    }
+
+    .result p {
+        margin-top: 8px;
+        color: #333;
+    }
+</style>
+
+</head>
+<body>
+    <div class="form-container">
+        <h2>Employee Income Prediction</h2>
+        <form method="POST" action="/predict">
+
+            <!-- Age -->
+            <label for="age">Age (17–77):</label>
+            <input type="number" name="age" min="17" max="77" required>
+
+            <!-- Gender -->
+            <label>Gender:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="gender" value="0" required> Female</label>
+                <label><input type="radio" name="gender" value="1"> Male</label>
+            </div>
+
+            <!-- Workclass -->
+            <label for="workclass">Workclass:</label>
+            <select name="workclass" required>
+                <option value="0">Federal-gov</option>
+                <option value="1">Local-gov</option>
+                <option value="2">Others</option>
+                <option value="3">Private</option>
+                <option value="4">Self-emp-inc</option>
+                <option value="5">Self-emp-not-inc</option>
+                <option value="6">State-gov</option>
+            </select>
+
+            <!-- Marital Status -->
+            <label for="marital">Marital Status:</label>
+            <select name="marital" required>
+                <option value="0">Divorced</option>
+                <option value="1">Married-AF-spouse</option>
+                <option value="2">Married-civ-spouse</option>
+                <option value="3">Married-spouse-absent</option>
+                <option value="4">Never-married</option>
+                <option value="5">Separated</option>
+                <option value="6">Widowed</option>
+            </select>
+
+            <!-- Occupation -->
+            <label for="occupation">Occupation:</label>
+            <select name="occupation" required>
+                <option value="0">Adm-clerical</option>
+                <option value="1">Armed-Forces</option>
+                <option value="2">Craft-repair</option>
+                <option value="3">Exec-managerial</option>
+                <option value="4">Farming-fishing</option>
+                <option value="5">Handlers-cleaners</option>
+                <option value="6">Machine-op-inspct</option>
+                <option value="7">Not listed</option>
+                <option value="8">Other-service</option>
+                <option value="9">Priv-house-serv</option>
+                <option value="10">Prof-specialty</option>
+                <option value="11">Protective-serv</option>
+                <option value="12">Sales</option>
+                <option value="13">Tech-support</option>
+                <option value="14">Transport-moving</option>
+            </select>
+
+            <!-- Education -->
+            <label for="education">Education:</label>
+            <select name="education" required>
+                <option value="0">10th</option>
+                <option value="1">11th</option>
+                <option value="2">12th</option>
+                <option value="3">1st-4th</option>
+                <option value="4">5th-6th</option>
+                <option value="5">7th-8th</option>
+                <option value="6">9th</option>
+                <option value="7">Assoc-acdm</option>
+                <option value="8">Assoc-voc</option>
+                <option value="9">Bachelors</option>
+                <option value="10">Doctorate</option>
+                <option value="11">HS-grad</option>
+                <option value="12">Masters</option>
+                <option value="13">Preschool</option>
+                <option value="14">Prof-school</option>
+                <option value="15">Some-college</option>
+            </select>
+
+            <!-- Hours per Week -->
+            <label for="hours">Hours per Week (35–55):</label>
+            <input type="range" name="hours" min="35" max="55" value="45" oninput="this.nextElementSibling.value = this.value">
+            <output>45</output>
+
+            <!-- Capital Gain -->
+            <label for="capital_gain">Capital Gain:</label>
+            <input type="number" name="capital_gain" min="0" value="0" step="1" required>
+
+            <!-- Capital Loss -->
+            <label for="capital_loss">Capital Loss:</label>
+            <input type="number" name="capital_loss" min="0" value="0" step="1" required>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            <h3>Prediction Result:</h3>
+            <p>{{ prediction }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
